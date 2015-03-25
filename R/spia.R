@@ -182,8 +182,15 @@ path.names<-path.names[!tor]
     
 
    if(plots){
-   plot(density(pfstmp,bw=sd(pfstmp)/4),cex.lab=1.2,col="black",lwd=2,main=paste("pathway ID=",names(datp)[i],"  P PERT=",round(pb[i],5),sep=""),
+   bwidth = sd(pfstmp)/4
+   if (bwidth > 0) {
+   plot(density(pfstmp,bw=bwidth),cex.lab=1.2,col="black",lwd=2,main=paste("pathway ID=",names(datp)[i],"  P PERT=",round(pb[i],5),sep=""),
    xlim=c(min(c(tA[i]-0.5,pfstmp)),max(c(tA[i]+0.5,pfstmp))),cex.main=0.8,xlab="Total Perturbation Accumulation (TA)")
+   } else {
+   pfsTab = table(pfstmp)
+   plot(as.numeric(names(pfsTab)), as.numeric(pfsTab), cex.lab=1.2,col="black",main=paste("pathway ID=",names(datp)[i],"  P PERT=",round(pb[i],5),sep=""),
+   xlim=c(min(c(tA[i]-0.5,pfstmp)),max(c(tA[i]+0.5,pfstmp))),cex.main=0.8,xlab="Total Perturbation Accumulation (TA)", ylab="frequency")
+   }
    abline(v=0,col="grey",lwd=2)
    abline(v=tA[i],col="red",lwd=3)
 
